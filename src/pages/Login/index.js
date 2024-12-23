@@ -18,8 +18,35 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const loginSubmit = () => {
-    Alert.alert('Sucesso', `E-mail: ${email}\nSenha: ${password}`);
+  const loginSubmit = async () => {
+    //Alert.alert('Sucesso', `E-mail: ${email}\nSenha: ${password}`);
+    try {
+
+      //Substituir o IP 192.168.0.14 pelo IP da maquina que está o aplicativo. Para encontrar o IP: ipconfig para windows ou ifconfig para Linux
+       const response = await fetch('http://192.168.0.14:8000/api/login', {
+        method: 'post',
+        //Aqui estou enviando os dados para validar o email e senha recebidos dos campos abaixo e enviados a api
+        body: JSON.stringify({email, password}),
+        headers:{
+          'Content-Type': 'application/json',
+          'User-Agent': 'app/0.0.1'
+        }
+       })
+
+       const result = await response.json();
+       console.log(result);
+
+       if (result.status) {
+        Alert.alert("Sucesso", `Nome: ${result.user.name} - E-mail: ${result.user.email}`)
+      } else {
+         Alert.alert("Erro", result.message)
+        
+       }
+
+
+    } catch (error) {
+       Alert.alert('Erro', error.message);
+    }
   }
 
   return (
