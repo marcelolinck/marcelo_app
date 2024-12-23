@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
 } from "react-native";
+import api from "../../config/api";
 
 export default function Login() {
   // Navegar entre as telas
@@ -20,34 +21,24 @@ export default function Login() {
 
   const loginSubmit = async () => {
     //Alert.alert('Sucesso', `E-mail: ${email}\nSenha: ${password}`);
-    try {
+    await api
+      .post("/login", { email, password })
+      .then((response) => {
+        //console.log(response)
 
-      //Substituir o IP 192.168.0.14 pelo IP da maquina que está o aplicativo. Para encontrar o IP: ipconfig para windows ou ifconfig para Linux
-       const response = await fetch('http://192.168.0.14:8000/api/login', {
-        method: 'post',
-        //Aqui estou enviando os dados para validar o email e senha recebidos dos campos abaixo e enviados a api
-        body: JSON.stringify({email, password}),
-        headers:{
-          'Content-Type': 'application/json',
-          'User-Agent': 'app/0.0.1'
+        Alert.alert("Sucesso", response.data.user.email)
+      })
+      .catch((err) => {
+        // console.log(err.response);
+
+        if (err.response) {
+            Alert.alert("Ops!", err.response.data.message)
+        }else
+        {
+          Alert.alert("Ops!", "Erro, tente novamente!")
         }
-       })
-
-       const result = await response.json();
-       console.log(result);
-
-       if (result.status) {
-        Alert.alert("Sucesso", `Nome: ${result.user.name} - E-mail: ${result.user.email}`)
-      } else {
-         Alert.alert("Erro", result.message)
-        
-       }
-
-
-    } catch (error) {
-       Alert.alert('Erro', error.message);
-    }
-  }
+      });
+  };
 
   return (
     <View style={styles.container}>
