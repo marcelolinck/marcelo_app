@@ -20,16 +20,20 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const loginSubmit = async () => {
-    //Alert.alert('Sucesso', `E-mail: ${email}\nSenha: ${password}`);
+    
+  //Funcao para validar o formulario
+    if (!validate()) return;
+  
+
     await api
       .post("/login", { email, password })
       .then((response) => {
-        //console.log(response)
+        console.log(response)
 
         Alert.alert("Sucesso", response.data.user.email)
       })
       .catch((err) => {
-        // console.log(err.response);
+         console.log(err.response);
 
         if (err.response) {
             Alert.alert("Ops!", err.response.data.message)
@@ -39,6 +43,19 @@ export default function Login() {
         }
       });
   };
+
+  //Funcao que valida o formulário
+  const validate  = () =>{
+    if(!email){
+      Alert.alert("Ops", "Erro: necessário preencher o campo do e-mail")
+      return false;
+    }
+    if(!password){
+      Alert.alert("Ops", "Erro: necessário preencher o campo de senha")
+      return false;
+    }
+    return true
+  }
 
   return (
     <View style={styles.container}>
