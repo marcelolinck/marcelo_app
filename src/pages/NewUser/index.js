@@ -15,6 +15,7 @@ import { useState } from "react";
 import * as yup from "yup";
 //Arquivo com as configurações da API
 import api from "../../config/api";
+import ErrorAlert from "../../components/ErrorAlert";
 
 export default function NewUser() {
   const Navigation = useNavigation();
@@ -22,6 +23,7 @@ export default function NewUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState(null)
 
   const addUser = async () => {
     //Usar o try e catch para gerenciar exceção/erro
@@ -41,14 +43,12 @@ export default function NewUser() {
         })
         .catch((err) => {//Acessar o catch quando a api retornar status de erro.
           //Recebe os erros da api e atribui na constante errors
-          const errors = err.response?.data?.erros;
-
+          
           if (err.response) {
-            const message = `${errors?.name ?? ""} ${errors?.name ? "\n" : ""}${errors?.email ?? ""}${errors?.email ? "\n" : ""}
-            ${errors?.password ?? ""} ${errors?.password ? "\n" : ""}`;
+            const errors = err.response?.data?.erros;
 
-            //Acessa o IF quando a API retornar erro
-            Alert.alert("Ops!", message.trim());
+            setErrors(errors)
+
           } else {
             //Acessa o ELSE quando a API não responder.
             Alert.alert("Ops!", "Erro, tente novamente!");
@@ -84,6 +84,7 @@ export default function NewUser() {
 
   return (
     <View style={styles.container}>
+      <ErrorAlert  errors={errors} />
       {/* View para carregamento do logo */}
       <View style={styles.logo}>
         <Image
