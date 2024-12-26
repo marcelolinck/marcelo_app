@@ -25,7 +25,7 @@ export const InputForm = styled.TextInput`
   border-radius: 6px;
   padding: 10px;
 `;
-export const BtnSubmitForm = styled.Pressable`
+export const BtnSubmitForm = styled.TouchableOpacity`
   background-color: #1f51fe;
   width: 90%;
   height: 45px;

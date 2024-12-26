@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./pages/Login";
 import NewUser from "./pages/NewUser";
 import RecoverPassword from "./pages/RecoverPassword";
+import Home from "./pages/Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,6 +22,7 @@ export default function Routes() {
         />
         <Stack.Screen name="NewUser" component={NewUser} />
         <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
+        <Stack.Screen name="Home" component={Home} />
       </Stack.Navigator>
     </NavigationContainer>
   );

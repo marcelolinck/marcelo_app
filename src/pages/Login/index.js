@@ -1,3 +1,7 @@
+//Incluido o AsyncStorage para armazenar dados no local.
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//Pacote responsavel pela navegacao entre telas
 import { useNavigation } from "@react-navigation/native";
 
 //Importar o arquivo com os componentes css
@@ -45,7 +49,14 @@ export default function Login() {
         .then((response) => {
           console.log(response);
 
-          Alert.alert("Sucesso", response.data.user.email);
+          //  Alert.alert("Sucesso", response.data.user.email);
+
+          //Salvar os dados no AsyncStorage para recuperar no futuro
+          AsyncStorage.setItem("@token", response.data.token);
+          AsyncStorage.setItem("@name", response.data.user.name);
+          AsyncStorage.setItem("@email", response.data.user.email);
+
+          Navigation.navigate("Home");
         })
         .catch((err) => {
           //Acessar o cacth quando a api retornar status sucesso.
