@@ -1,14 +1,19 @@
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+
+//Importar o arquivo com os componentes css
 import {
-  View,
-  Text,
-  Image,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+  ContainerLogin,
+  ImageLogo,
+  InputForm,
+  Logo,
+  BtnSubmitForm,
+  TxtSubmitForm,
+  LinkLogin,
+} from "../../styles/custom";
+
+//useState - Adicionar o estado a um componente
+import { useState } from "react";
+import { Alert, ScrollView } from "react-native";
 
 //Arquivo com as configurações da API
 import api from "../../config/api";
@@ -85,93 +90,49 @@ export default function Login() {
   });
 
   return (
-    <View style={styles.container}>
-      {/* View para carregamento do logo */}
-      <View style={styles.logo}>
-        <Image
-          source={require("../../../assets/logo1.png")}
-          resizeMode="stretch"
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ContainerLogin>
+        {/* View para carregamento do logo */}
+        <Logo>
+          <ImageLogo
+            source={require("../../../assets/logo1.png")}
+            resizeMode="stretch"
+          />
+        </Logo>
+
+        {/* Campo de usuáro */}
+        <InputForm
+          placeholder="Usuário"
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
         />
-      </View>
+        {/* Campo de senha */}
+        <InputForm
+          placeholder="Senha"
+          autoCapitalize="none"
+          autoCorrect={false}
+          secureTextEntry={true}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
 
-      {/* Campo de usuáro */}
-      <TextInput
-        placeholder="Usuário"
-        style={styles.inputform}
-        autoCapitalize="none"
-        autoCorrect={false}
-        keyboardType="email-address"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
-      {/* Campo de senha */}
-      <TextInput
-        style={styles.inputform}
-        placeholder="Senha"
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
+        {/* Criar o botão para submeter/enviar os dados do formulário */}
+        <BtnSubmitForm onPress={loginSubmit}>
+          <TxtSubmitForm>Acessar</TxtSubmitForm>
+        </BtnSubmitForm>
 
-      {/* Criar o botão para submeter/enviar os dados do formulário */}
-      <TouchableOpacity style={styles.btnSubmitForm} onPress={loginSubmit}>
-        <Text style={styles.txtSubmitForm}>Acessar</Text>
-      </TouchableOpacity>
-      
-      {/* Link para novo usuario */}
-      <Text
-        style={styles.linkLogin}
-        onPress={() => Navigation.navigate("NewUser")}
-      >
-        Cadastrar
-      </Text>
-      {/* Link para recuperar a senha */}
-      <Text
-        style={styles.linkLogin}
-        onPress={() => Navigation.navigate("RecoverPassword")}
-      >
-        Recuperar Senha
-      </Text>
-    </View>
+        {/* Link para novo usuario */}
+        <LinkLogin onPress={() => Navigation.navigate("NewUser")}>
+          Cadastrar
+        </LinkLogin>
+        {/* Link para recuperar a senha */}
+        <LinkLogin onPress={() => Navigation.navigate("RecoverPassword")}>
+          Recuperar Senha
+        </LinkLogin>
+      </ContainerLogin>
+    </ScrollView>
   );
 }
-// Personalizar a tela de login com css
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#10101c",
-  },
-  logo: {
-    paddingBottom: 20,
-  },
-  inputform: {
-    backgroundColor: "#f5f5f5",
-    width: "90%",
-    marginBottom: 15,
-    color: "#10101c",
-    fontSize: 18,
-    borderRadius: 6,
-    padding: 10,
-  },
-  btnSubmitForm: {
-    backgroundColor: "#1f51fe",
-    width: "90%",
-    height: 45,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-  },
-  txtSubmitForm: {
-    color: "#f5f5f5",
-    fontSize: 18,
-  },
-  linkLogin: {
-    color: "#1f51fe",
-    marginTop: 10,
-    fontSize: 18,
-  },
-});

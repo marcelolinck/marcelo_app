@@ -1,13 +1,16 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+
+//Importar o arquivo com os componentes css
+import {
+  ContainerLogin,
+  ImageLogo,
+  InputForm,
+  Logo,
+  BtnSubmitForm,
+  TxtSubmitForm,
+  LinkLogin,
+} from "../../styles/custom";
 
 //useState - Adicionar o estado ao componente
 import { useState } from "react";
@@ -23,7 +26,7 @@ export default function NewUser() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState(null)
+  const [errors, setErrors] = useState(null);
 
   const addUser = async () => {
     //Usar o try e catch para gerenciar exceção/erro
@@ -41,14 +44,14 @@ export default function NewUser() {
 
           Navigation.navigate("Login");
         })
-        .catch((err) => {//Acessar o catch quando a api retornar status de erro.
+        .catch((err) => {
+          //Acessar o catch quando a api retornar status de erro.
           //Recebe os erros da api e atribui na constante errors
-          
+
           if (err.response) {
             const errors = err.response?.data?.erros;
 
-            setErrors(errors)
-
+            setErrors(errors);
           } else {
             //Acessa o ELSE quando a API não responder.
             Alert.alert("Ops!", "Erro, tente novamente!");
@@ -83,93 +86,50 @@ export default function NewUser() {
   });
 
   return (
-    <View style={styles.container}>
-      <ErrorAlert  errors={errors} />
-      {/* View para carregamento do logo */}
-      <View style={styles.logo}>
-        <Image
-          source={require("../../../assets/logo1.png")}
-          resizeMode="stretch"
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ContainerLogin>
+        <ErrorAlert errors={errors} />
+        {/* View para carregamento do logo */}
+        <Logo>
+          <ImageLogo
+            source={require("../../../assets/logo1.png")}
+            resizeMode="stretch"
+          />
+        </Logo>
+        {/* Campo de usuáro */}
+        <InputForm
+          placeholder="Nome completo"
+          value={name}
+          onChangeText={(text) => setName(text)}
         />
-      </View>
-      {/* Campo de usuáro */}
-      <TextInput
-        placeholder="Nome completo"
-        style={styles.inputform}
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      {/* Campo de usuáro */}
-      <TextInput
-        placeholder="Melhor e-mail"
-        style={styles.inputform}
-        autoCapitalize="none"
-        autoCorrect={false}
-        keyboardType="email-address"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
-      {/* Campo de senha */}
-      <TextInput
-        style={styles.inputform}
-        placeholder="Senha com no mínimo 6 caracteres"
-        autoCapitalize="none"
-        autoCorrect={false}
-        secureTextEntry={true}
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      {/* Criar o botão para submeter/enviar os dados do formulário */}
-      <TouchableOpacity style={styles.btnSubmitForm} onPress={() => addUser()}>
-        <Text style={styles.txtSubmitForm}>Acessar</Text>
-      </TouchableOpacity>
+        {/* Campo de usuáro */}
+        <InputForm
+          placeholder="Melhor e-mail"
+          autoCapitalize="none"
+          autoCorrect={false}
+          keyboardType="email-address"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        {/* Campo de senha */}
+        <InputForm
+          placeholder="Senha com no mínimo 6 caracteres"
+          autoCapitalize="none"
+          autoCorrect={false}
+          secureTextEntry={true}
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        {/* Criar o botão para submeter/enviar os dados do formulário */}
+        <BtnSubmitForm onPress={() => addUser()}>
+          <TxtSubmitForm>Acessar</TxtSubmitForm>
+        </BtnSubmitForm>
 
-      {/* Link para a tela de login */}
-      <Text
-        style={styles.linkLogin}
-        onPress={() => Navigation.navigate("Login")}
-      >
-        Login
-      </Text>
-    </View>
+        {/* Link para a tela de login */}
+        <LinkLogin onPress={() => Navigation.navigate("Login")}>
+          Login
+        </LinkLogin>
+      </ContainerLogin>
+    </ScrollView>
   );
 }
-
-// Personalizar a tela de login com css
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#10101c",
-  },
-  logo: {
-    paddingBottom: 20,
-  },
-  inputform: {
-    backgroundColor: "#f5f5f5",
-    width: "90%",
-    marginBottom: 15,
-    color: "#10101c",
-    fontSize: 18,
-    borderRadius: 6,
-    padding: 10,
-  },
-  btnSubmitForm: {
-    backgroundColor: "#1f51fe",
-    width: "90%",
-    height: 45,
-    alignItems: "center",
-    justifyContent: "center",
-    borderRadius: 6,
-  },
-  txtSubmitForm: {
-    color: "#f5f5f5",
-    fontSize: 18,
-  },
-  linkLogin: {
-    color: "#1f51fe",
-    marginTop: 10,
-    fontSize: 18,
-  },
-});
