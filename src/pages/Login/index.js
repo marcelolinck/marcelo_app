@@ -13,6 +13,7 @@ import {
   BtnSubmitForm,
   TxtSubmitForm,
   LinkLogin,
+  BtnSubmitPressedForm,
 } from "../../styles/custom";
 
 //useState - Adicionar o estado a um componente
@@ -24,6 +25,9 @@ import api from "../../config/api";
 
 import * as yup from "yup";
 
+//Importando o loading para exibir ao efetuar o login
+import Loading from "../../components/Loading";
+
 export default function Login() {
   // Navegar entre as telas
   const Navigation = useNavigation();
@@ -31,6 +35,8 @@ export default function Login() {
   // Armazenar as informacoes do usuário
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
 
   const loginSubmit = async () => {
     //Funcao para validar o formulario com js puro
@@ -42,6 +48,9 @@ export default function Login() {
         { email, password },
         { abortEarly: false }
       );
+
+      //Alterar o loading para TRUE e apresentar o loading
+      setLoading(true);
 
       //Requisicao para a API indicand a rota e os dados
       await api
@@ -73,6 +82,9 @@ export default function Login() {
     } catch (error) {
       //Acessa o catch se o houver erro no try
       Alert.alert("Ops!", error.errors[0]);
+    } finally {
+      //Alterar o loading para false após o processamento
+      setLoading(false);
     }
   };
 
@@ -117,6 +129,7 @@ export default function Login() {
           autoCapitalize="none"
           autoCorrect={false}
           keyboardType="email-address"
+          editable={!loading}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
@@ -126,12 +139,17 @@ export default function Login() {
           autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry={true}
+          editable={!loading}
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
 
         {/* Criar o botão para submeter/enviar os dados do formulário */}
-        <BtnSubmitForm onPress={loginSubmit}>
+        <BtnSubmitForm
+          onPress={loginSubmit}
+          disabled={loading}
+          style={({ pressed }) => BtnSubmitPressedForm(pressed)}
+        >
           <TxtSubmitForm>Acessar</TxtSubmitForm>
         </BtnSubmitForm>
 
@@ -143,6 +161,9 @@ export default function Login() {
         <LinkLogin onPress={() => Navigation.navigate("RecoverPassword")}>
           Recuperar Senha
         </LinkLogin>
+
+
+        {loading && <Loading />}
       </ContainerLogin>
     </ScrollView>
   );

@@ -10,6 +10,7 @@ import {
   BtnSubmitForm,
   TxtSubmitForm,
   LinkLogin,
+  BtnSubmitPressedForm,
 } from "../../styles/custom";
 
 //useState - Adicionar o estado ao componente
@@ -19,6 +20,7 @@ import * as yup from "yup";
 //Arquivo com as configurações da API
 import api from "../../config/api";
 import ErrorAlert from "../../components/ErrorAlert";
+import Loading from "../../components/Loading";
 
 export default function NewUser() {
   const Navigation = useNavigation();
@@ -27,6 +29,7 @@ export default function NewUser() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const addUser = async () => {
     //Usar o try e catch para gerenciar exceção/erro
@@ -36,6 +39,10 @@ export default function NewUser() {
         { name, email, password },
         { abortEarly: false }
       );
+
+      //Alterar o loading para TRUE e apresentar o loading
+      setLoading(true);
+
       //Requisicao para a aAPI indicando a rota e os dados
       await api
         .post("register", { name, email, password })
@@ -67,6 +74,9 @@ export default function NewUser() {
       } else {
         Alert.alert("Ops", "Erro: tente novamente!");
       }
+    } finally {
+      //Alterar o loading para false após o processamento
+      setLoading(false);
     }
   };
 
@@ -99,6 +109,7 @@ export default function NewUser() {
         {/* Campo de usuáro */}
         <InputForm
           placeholder="Nome completo"
+          editable={!loading}
           value={name}
           onChangeText={(text) => setName(text)}
         />
@@ -108,6 +119,7 @@ export default function NewUser() {
           autoCapitalize="none"
           autoCorrect={false}
           keyboardType="email-address"
+          editable={!loading}
           value={email}
           onChangeText={(text) => setEmail(text)}
         />
@@ -117,18 +129,24 @@ export default function NewUser() {
           autoCapitalize="none"
           autoCorrect={false}
           secureTextEntry={true}
+          editable={!loading}
           value={password}
           onChangeText={(text) => setPassword(text)}
         />
         {/* Criar o botão para submeter/enviar os dados do formulário */}
-        <BtnSubmitForm onPress={() => addUser()}>
-          <TxtSubmitForm>Acessar</TxtSubmitForm>
+        <BtnSubmitForm
+          onPress={() => addUser()}
+          disabled={loading}
+          style={({ pressed }) => BtnSubmitPressedForm(pressed)}
+        >
+          <TxtSubmitForm>Cadastrar</TxtSubmitForm>
         </BtnSubmitForm>
 
         {/* Link para a tela de login */}
         <LinkLogin onPress={() => Navigation.navigate("Login")}>
           Login
         </LinkLogin>
+        {loading && <Loading />}
       </ContainerLogin>
     </ScrollView>
   );

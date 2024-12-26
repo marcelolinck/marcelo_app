@@ -25,7 +25,7 @@ export const InputForm = styled.TextInput`
   border-radius: 6px;
   padding: 10px;
 `;
-export const BtnSubmitForm = styled.TouchableOpacity`
+export const BtnSubmitForm = styled.Pressable`
   background-color: #1f51fe;
   width: 90%;
   height: 45px;
@@ -33,12 +33,28 @@ export const BtnSubmitForm = styled.TouchableOpacity`
   justify-content: center;
   border-radius: 6px;
 `;
+
+export const BtnSubmitPressedForm = (pressed) => ({
+  backgroundColor: pressed ? "#531ffe" : "#1f51fe",
+});
+
 export const TxtSubmitForm = styled.Text`
   color: #f5f5f5;
   font-size: 18px;
 `;
 export const LinkLogin = styled.Text`
-    color: #1f51fe;
-    margin-top: 10px;
-    font-size: 18px;
+  color: #1f51fe;
+  margin-top: 10px;
+  font-size: 18px;
+`;
+
+export const LoadingArea = styled.View`
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  justify-content: center;
+  align-items: center;
 `;
