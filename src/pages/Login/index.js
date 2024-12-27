@@ -64,18 +64,16 @@ export default function Login() {
           AsyncStorage.setItem("@token", response.data.token);
           AsyncStorage.setItem("@name", response.data.user.name);
           AsyncStorage.setItem("@email", response.data.user.email);
-
+          
           Navigation.navigate("Home");
         })
         .catch((err) => {
           //Acessar o cacth quando a api retornar status sucesso.
           console.log(err.response);
 
-          if (err.response) {
-            //Acessa o IF quando a API retornar erro
+          if (err.response) {//Acessa o IF quando a API retornar erro
             Alert.alert("Ops!", err.response.data.message);
-          } else {
-            //Acessa o ELSE quando a API não responder.
+          } else {//Acessa o ELSE quando a API não responder.
             Alert.alert("Ops!", "Erro, tente novamente!");
           }
         });
@@ -160,6 +158,10 @@ export default function Login() {
         {/* Link para recuperar a senha */}
         <LinkLogin onPress={() => Navigation.navigate("RecoverPassword")}>
           Recuperar Senha
+        </LinkLogin>
+
+        <LinkLogin onPress={() => Navigation.navigate("Home")}>
+          Home
         </LinkLogin>
 
 
