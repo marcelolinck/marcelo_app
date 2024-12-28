@@ -6,6 +6,9 @@ import api from "../config/api";
 
 //Recuperar o token e validar ele
 export const getValToken = async () => {
+  //Chamar a funcao validar Token
+  await valTokenUser();
+  
   //Recuperar o token do AsyncStorage
   const valueToken = await AsyncStorage.getItem("@token");
 
@@ -24,6 +27,7 @@ const valTokenUser = async () => {
   const headers = {
     headers: {
       Authorization: `Bearer ${valueToken}`,
+      //   Authorization: `Bearer 45`,
     },
   };
 
@@ -32,6 +36,8 @@ const valTokenUser = async () => {
     .then((response) => {
       //Acessar o then quando a API retornar status sucesso
 
+      //Receber o token atualizado da API
+      // AsyncStorage.setItem("@token", response.data.token);
       //Salvar os dados no AsyncStorage
       AsyncStorage.setItem("@name", response.data.user.name);
       AsyncStorage.setItem("@email", response.data.user.email);

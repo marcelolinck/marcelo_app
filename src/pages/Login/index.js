@@ -1,5 +1,11 @@
+//Importando o loading para exibir ao efetuar o login
+import Loading from "../../components/Loading";
+
 //Incluido o AsyncStorage para armazenar dados no local.
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
+//Importar o context para verificar se o usuário está logado
+import { AuthContext } from "../../contexts/authContext";
 
 //Pacote responsavel pela navegacao entre telas
 import { useNavigation } from "@react-navigation/native";
@@ -17,16 +23,13 @@ import {
 } from "../../styles/custom";
 
 //useState - Adicionar o estado a um componente
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Alert, ScrollView } from "react-native";
 
 //Arquivo com as configurações da API
 import api from "../../config/api";
 
 import * as yup from "yup";
-
-//Importando o loading para exibir ao efetuar o login
-import Loading from "../../components/Loading";
 
 export default function Login() {
   // Navegar entre as telas
@@ -37,6 +40,8 @@ export default function Login() {
   const [password, setPassword] = useState("");
 
   const [loading, setLoading] = useState(false);
+
+  const { signIn } = useContext(AuthContext);
 
   const loginSubmit = async () => {
     //Funcao para validar o formulario com js puro
@@ -64,16 +69,22 @@ export default function Login() {
           AsyncStorage.setItem("@token", response.data.token);
           AsyncStorage.setItem("@name", response.data.user.name);
           AsyncStorage.setItem("@email", response.data.user.email);
-          
-          Navigation.navigate("Home");
+
+          //Chamar a funcao que está no memo e no context
+
+          signIn();
+          // Redirecionar para a pagina de login
+          // Navigation.navigate("Home");
         })
         .catch((err) => {
           //Acessar o cacth quando a api retornar status sucesso.
           console.log(err.response);
 
-          if (err.response) {//Acessa o IF quando a API retornar erro
+          if (err.response) {
+            //Acessa o IF quando a API retornar erro
             Alert.alert("Ops!", err.response.data.message);
-          } else {//Acessa o ELSE quando a API não responder.
+          } else {
+            //Acessa o ELSE quando a API não responder.
             Alert.alert("Ops!", "Erro, tente novamente!");
           }
         });
@@ -85,19 +96,6 @@ export default function Login() {
       setLoading(false);
     }
   };
-
-  //Funcao que valida o formulário
-  // const validate  = () =>{
-  //   if(!email){
-  //     Alert.alert("Ops", "Erro: necessário preencher o campo do e-mail")
-  //     return false;
-  //   }
-  //   if(!password){
-  //     Alert.alert("Ops", "Erro: necessário preencher o campo de senha")
-  //     return false;
-  //   }
-  //   return true
-  // }
 
   //Funcao que valida o formulário com yup
   const validationSchema = yup.object().shape({
@@ -159,11 +157,6 @@ export default function Login() {
         <LinkLogin onPress={() => Navigation.navigate("RecoverPassword")}>
           Recuperar Senha
         </LinkLogin>
-
-        <LinkLogin onPress={() => Navigation.navigate("Home")}>
-          Home
-        </LinkLogin>
-
 
         {loading && <Loading />}
       </ContainerLogin>
