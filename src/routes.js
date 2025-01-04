@@ -10,6 +10,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 //Importar a função validar Token
 import { getValToken } from "./services/auth";
 
+//Importar a funcão remover token
+import { logoutRemoveToken } from "./services/logout";
+
 //Gerenciar a navegação entre telas.
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -35,6 +38,13 @@ export default function Routes() {
         //Recuperar o token que está no AsyncStorage
         const valToken = AsyncStorage.getItem("@token");
         setUSerToken(valToken);
+      },
+
+      //Rota para sair do login efetuado. Esta funcao deve excluir os dados autenticados do app, ou seha, o token
+      signOut: async () => {
+        await logoutRemoveToken();
+        //Dessa forma estou setando o valor de null em que vai redirecionar o usuário para a tela de login
+        setUSerToken(null);
       },
     };
   });
@@ -84,7 +94,6 @@ export default function Routes() {
             <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
           </Stack.Navigator>
         )}
-
       </NavigationContainer>
     </AuthContext.Provider>
   );

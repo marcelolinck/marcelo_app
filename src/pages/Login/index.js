@@ -1,3 +1,7 @@
+//useContext - compartilhar dados entre as páginas
+//useState - Adicionar o estado a um componente
+import { useContext, useState } from "react";
+
 //Importando o loading para exibir ao efetuar o login
 import Loading from "../../components/Loading";
 
@@ -22,8 +26,7 @@ import {
   BtnSubmitPressedForm,
 } from "../../styles/custom";
 
-//useState - Adicionar o estado a um componente
-import { useContext, useState } from "react";
+
 import { Alert, ScrollView } from "react-native";
 
 //Arquivo com as configurações da API
