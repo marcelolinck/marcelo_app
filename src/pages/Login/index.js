@@ -26,7 +26,6 @@ import {
   BtnSubmitPressedForm,
 } from "../../styles/custom";
 
-
 import { Alert, ScrollView } from "react-native";
 
 //Arquivo com as configurações da API
@@ -51,20 +50,16 @@ export default function Login() {
     //if (!validate()) return;
 
     try {
-      //Funcao para validar o formulario com yup
-      await validationSchema.validate(
-        { email, password },
-        { abortEarly: false }
-      );
-
       //Alterar o loading para TRUE e apresentar o loading
       setLoading(true);
 
+      //Funcao para validar o formulario com yup
+      await validationSchema.validate({ email, password },{ abortEarly: false });
+
       //Requisicao para a API indicand a rota e os dados
       await api
-        .post("/login", { email, password })
+        .post("login", { email, password })
         .then((response) => {
-          console.log(response);
 
           //  Alert.alert("Sucesso", response.data.user.email);
 
@@ -79,26 +74,22 @@ export default function Login() {
           // Redirecionar para a pagina de login
           // Navigation.navigate("Home");
         })
-        .catch((err) => {
-          //Acessar o cacth quando a api retornar status sucesso.
-          console.log(err.response);
+        .catch((err) => { // Acessar o catch quando a API retornar status erro
+          if (err.response) { // Acessa o IF quando a API retornar erro
+              Alert.alert("Ops", err.response.data.message);
+          } else { // Acessa o ELSE quando a API não responder
+              Alert.alert("Ops", "Tente novamente!");
+          };
+      });
+    } catch (error) { // Acessa o catch quando houver erro no try
+      console.log(error)
+      Alert.alert("Ops", "Tente novamente!");
+  } finally {
 
-          if (err.response) {
-            //Acessa o IF quando a API retornar erro
-            Alert.alert("Ops!", err.response.data.message);
-          } else {
-            //Acessa o ELSE quando a API não responder.
-            Alert.alert("Ops!", "Erro, tente novamente!");
-          }
-        });
-    } catch (error) {
-      //Acessa o catch se o houver erro no try
-      Alert.alert("Ops!", error.errors[0]);
-    } finally {
-      //Alterar o loading para false após o processamento
+      // Alterar para false e ocultar loading
       setLoading(false);
-    }
-  };
+  }
+}
 
   //Funcao que valida o formulário com yup
   const validationSchema = yup.object().shape({
@@ -114,6 +105,7 @@ export default function Login() {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <ContainerLogin>
+        
         {/* View para carregamento do logo */}
         <Logo>
           <ImageLogo

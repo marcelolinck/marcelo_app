@@ -16,10 +16,16 @@ import {
 //useState - Adicionar o estado ao componente
 import { useState } from "react";
 
-import * as yup from "yup";
-//Arquivo com as configurações da API
+//Arquivo com as configuracoes da API
 import api from "../../config/api";
+
+//Importar o componente para apresentar o alerta com as mensagens de erro retornadas da API.
 import ErrorAlert from "../../components/ErrorAlert";
+
+//Valida os dados do formulário
+import * as yup from "yup";
+
+//Importar o componente para apresentar carregando
 import Loading from "../../components/Loading";
 
 export default function NewUser() {
@@ -35,10 +41,10 @@ export default function NewUser() {
     //Usar o try e catch para gerenciar exceção/erro
     try {
       //Funcao para validar o formulario com yup
-      await validationSchema.validate(
-        { name, email, password },
-        { abortEarly: false }
-      );
+      // await validationSchema.validate(
+      //   { name, email, password },
+      //   { abortEarly: false }
+      // );
 
       //Alterar o loading para TRUE e apresentar o loading
       setLoading(true);
@@ -52,30 +58,31 @@ export default function NewUser() {
           Navigation.navigate("Login");
         })
         .catch((err) => {
-          //Acessar o catch quando a api retornar status de erro.
-          //Recebe os erros da api e atribui na constante errors
+      
+          //Acessa o catch quando houver um erro no try
+          if (err.response) { //Acessa o if quanto existir a mensagem de erro
 
-          if (err.response) {
             const errors = err.response?.data?.erros;
-
             setErrors(errors);
           } else {
-            //Acessa o ELSE quando a API não responder.
-            Alert.alert("Ops!", "Erro, tente novamente!");
+            //Acessa o ELSE quando não existir a mensagem de erro
+            Alert.alert("Ops", "Erro: tente novamente!");
           }
         });
 
       //Permanece no try se não houver nenhum erro
     } catch (error) {
-      //Acessa o catch quando houver um erro no try
+      // Acessa o catch quando houver erro no try
+
       if (error.errors) {
-        //Acessa o if quanto existir a mensagem de erro
+        // Acessa o IF quando existir a mensagem de erro
         Alert.alert("Ops", error.errors[0]);
       } else {
-        Alert.alert("Ops", "Erro: tente novamente!");
+        // Acessa o ELSE quando não existir a mensagem de erro
+        Alert.alert("Ops", "Erro: Tente novamente!");
       }
     } finally {
-      //Alterar o loading para false após o processamento
+      // Alterar para false e ocultar loading
       setLoading(false);
     }
   };
@@ -98,6 +105,7 @@ export default function NewUser() {
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <ContainerLogin>
+        {/* Usar o componente para apresentar as mensagens de erro retornadas na API. */}
         <ErrorAlert errors={errors} />
         {/* View para carregamento do logo */}
         <Logo>
