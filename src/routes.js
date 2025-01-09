@@ -23,6 +23,7 @@ import Home from "./pages/Home";
 
 //Importar o context e verificar se o usuário está logado
 import { AuthContext } from "./contexts/authContext";
+import VerifyKey from "./pages/VerifyKey";
 
 const Stack = createNativeStackNavigator();
 
@@ -82,6 +83,8 @@ export default function Routes() {
             <Stack.Screen name="Home" component={Home} />
           </Stack.Navigator>
         ) : (
+          
+          
           // Criar uma pilha de páginas
           <Stack.Navigator>
             {/* Carrega as telas de login caso o usuário esteja com o token inválido */}
@@ -90,8 +93,16 @@ export default function Routes() {
               component={Login}
               options={{ headerShown: false }}
             />
+            {/* Para cadastrar um novo usuário */}
             <Stack.Screen name="NewUser" component={NewUser} />
+
+            {/* Para solicitar uma recuperacao de senha de acesso */}
             <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
+            
+            {/* Esta tela está validando o token recebido para reset de senha */}
+            <Stack.Screen name="VerifyKey" component={VerifyKey} />
+
+            
           </Stack.Navigator>
         )}
       </NavigationContainer>
