@@ -1,5 +1,5 @@
-//useContext - compartilhar dados entre as páginas
-import { useContext } from "react";
+//Importar o contexto de autenticação para verificar se o usuario está logado
+import { AuthContext } from "../contexts/authContext";
 
 import React from "react";
 import {
@@ -12,8 +12,11 @@ import Home from "../pages/Home";
 import Billys from "../pages/Billys";
 import Revenues from "../pages/Revenues";
 
-//Importar o contexto de autenticação para verificar se o usuario está logado
-import { AuthContext } from "../contexts/authContext";
+//Importando icones do MaterialIcons
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
+//useContext - compartilhar dados entre as páginas
+import { useContext } from "react";
 
 const Drawer = createDrawerNavigator();
 
@@ -25,7 +28,15 @@ function DrawerSignOut(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem label="Sair" onPress={() => signOut()} />
+      <DrawerItem label="Sair" onPress={() => signOut()} icon={()=>(
+            <MaterialCommunityIcons
+              name='logout'
+              size={25}
+              color='#1f51fe'
+              style={{ marginRight: -5 }}
+            />
+          )} 
+        />
     </DrawerContentScrollView>
   );
 }
@@ -39,6 +50,14 @@ export default function DrawerNavigator() {
         name="Home"
         component={Home}
         options={{
+          drawerIcon: () => (
+            <MaterialCommunityIcons
+              name='home'
+              size={25}
+              color='#1f51fe'
+              style={{ marginRight: -5 }}
+            />
+          ),
           drawerLabel: "Home",
         }}
       />
@@ -46,6 +65,14 @@ export default function DrawerNavigator() {
         name="Billys"
         component={Billys}
         options={{
+          drawerIcon: () => (
+            <MaterialCommunityIcons
+              name='currency-usd-off'
+              size={25}
+              color='#1f51fe'
+              style={{ marginRight: -5 }}
+            />
+          ),
           drawerLabel: "Contas",
         }}
       />
@@ -53,6 +80,14 @@ export default function DrawerNavigator() {
         name="Revenues"
         component={Revenues}
         options={{
+          drawerIcon: () => (
+            <MaterialCommunityIcons
+              name='cash'
+              size={25}
+              color='#1f51fe'
+              style={{ marginRight: -5 }}
+            />
+          ),
           drawerLabel: "Receitas",
         }}
       />
