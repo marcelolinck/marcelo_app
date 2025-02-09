@@ -8,22 +8,25 @@ import { NavigationContainer } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 //Importar a função validar Token
-import { getValToken } from "./services/auth";
+import { getValToken } from "../services/auth";
 
 //Importar a funcão remover token
-import { logoutRemoveToken } from "./services/logout";
+import { logoutRemoveToken } from "../services/logout";
 
 //Gerenciar a navegação entre telas.
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import Login from "./pages/Login";
-import NewUser from "./pages/NewUser";
-import RecoverPassword from "./pages/RecoverPassword";
-import Home from "./pages/Home";
+import Login from "../pages/Login";
+import NewUser from "../pages/NewUser";
+import RecoverPassword from "../pages/RecoverPassword";
+import Home from "../pages/Home";
 
 //Importar o context e verificar se o usuário está logado
-import { AuthContext } from "./contexts/authContext";
-import VerifyKey from "./pages/VerifyKey";
+import { AuthContext } from "../contexts/authContext";
+
+import VerifyKey from "../pages/VerifyKey";
+
+import DrawerNavigation from "./DrawerNavigator";
 
 const Stack = createNativeStackNavigator();
 
@@ -80,11 +83,14 @@ export default function Routes() {
           // Criar uma pilha de páginas
           <Stack.Navigator>
             {/* Carragando as telas da area restrita */}
-            <Stack.Screen name="Home" component={Home} />
+            {/* <Stack.Screen name="Home" component={Home} /> */}
+            <Stack.Screen
+              name="Administrative"
+              component={DrawerNavigation}
+              options={{ headerShown: false }}
+            />
           </Stack.Navigator>
         ) : (
-          
-          
           // Criar uma pilha de páginas
           <Stack.Navigator>
             {/* Carrega as telas de login caso o usuário esteja com o token inválido */}
@@ -98,11 +104,9 @@ export default function Routes() {
 
             {/* Para solicitar uma recuperacao de senha de acesso */}
             <Stack.Screen name="RecoverPassword" component={RecoverPassword} />
-            
+
             {/* Esta tela está validando o token recebido para reset de senha */}
             <Stack.Screen name="VerifyKey" component={VerifyKey} />
-
-            
           </Stack.Navigator>
         )}
       </NavigationContainer>
