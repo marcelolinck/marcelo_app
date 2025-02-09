@@ -2,6 +2,7 @@
 import { AuthContext } from "../contexts/authContext";
 
 import React from "react";
+
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
@@ -12,13 +13,19 @@ import Home from "../pages/Home";
 import Billys from "../pages/Billys";
 import Revenues from "../pages/Revenues";
 
+
 //Importando icones do MaterialIcons
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
+//
+import UserIcon from "../components/UserIcon";
 
 //useContext - compartilhar dados entre as páginas
 import { useContext } from "react";
 
+
 const Drawer = createDrawerNavigator();
+
 
 
 //Criar a função para sair do app
@@ -50,6 +57,7 @@ export default function DrawerNavigator() {
         name="Home"
         component={Home}
         options={{
+          headerRight: () => <UserIcon />,
           drawerIcon: () => (
             <MaterialCommunityIcons
               name='home'
@@ -65,6 +73,7 @@ export default function DrawerNavigator() {
         name="Billys"
         component={Billys}
         options={{
+          headerRight: () => <UserIcon />,
           drawerIcon: () => (
             <MaterialCommunityIcons
               name='currency-usd-off'
@@ -80,6 +89,7 @@ export default function DrawerNavigator() {
         name="Revenues"
         component={Revenues}
         options={{
+          headerRight: () => <UserIcon />,
           drawerIcon: () => (
             <MaterialCommunityIcons
               name='cash'
