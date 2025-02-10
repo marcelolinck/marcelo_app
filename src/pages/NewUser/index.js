@@ -19,11 +19,11 @@ import { useState } from "react";
 //Arquivo com as configuracoes da API
 import api from "../../config/api";
 
-//Importar o componente para apresentar o alerta com as mensagens de erro retornadas da API.
-import ErrorAlert from "../../components/ErrorAlert";
-
 //Valida os dados do formulário
 import * as yup from "yup";
+
+//Importar o componente para apresentar o alerta com as mensagens de erro retornadas da API.
+import ErrorAlert from "../../components/ErrorAlert";
 
 //Importar o componente para apresentar carregando
 import Loading from "../../components/Loading";
@@ -154,6 +154,7 @@ export default function NewUser() {
         <LinkLogin onPress={() => Navigation.navigate("Login")}>
           Login
         </LinkLogin>
+        {/* Apresentar o loading */}
         {loading && <Loading />}
       </ContainerLogin>
     </ScrollView>
