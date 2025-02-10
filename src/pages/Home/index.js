@@ -93,7 +93,7 @@ export default function Home() {
       <Text>
         Saldo das contas: R$ {totalBalanceValue ? totalBalanceValue : 0}
       </Text>
-      <Text>Gastos de hoje: R$ {totalBillValue ? totalBillValue : 0}</Text>1
+      <Text>Gastos de hoje: R$ {totalBillValue ? totalBillValue : 0}</Text>
       <Text>
         Visão geral do mês: R${" "}
         {reportMonth.year_month ? reportMonth.year_month : 0}
@@ -113,17 +113,21 @@ export default function Home() {
       <Text></Text>
       <Text>Vencimentos hoje:</Text>
       {/* Ler a lista de contas a pagar com vencimento para hoje e apresentar na tela */}
-      {billsDueToday.map((billDueToday) => {
-        //Retornar o componente com o nome e valor da conta
-        return (
-          <View key={billDueToday.id}>
-            <Text>{`${billDueToday.name} R$ ${billDueToday.bill_value}`}</Text>
-          </View>
-        );
-      })}
-      <Text></Text>
-      <Text></Text>
-      {/* Ler a lista de contas vencidas e apresentar na tela */}
+        {billsDueToday.length > 0 && (
+          <>
+            {billsDueToday.map((billDueToday) => {
+          //Retornar o componente com o nome e valor da conta
+          return (
+            <View key={billDueToday.id}>
+              <Text>{`${billDueToday.name} R$ ${billDueToday.bill_value ?? 0}`}</Text>
+            </View>
+          );
+            })}
+            <Text></Text>
+            <Text></Text>
+          </>
+        )}
+        {/* Ler a lista de contas vencidas e apresentar na tela */}
       <Text>Contas vencidas:</Text>
       {overdueBills.map((overdueBill) => {
         //Retornar o componente com o nome e valor da conta

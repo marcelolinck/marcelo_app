@@ -1,12 +1,15 @@
 //Importar a depenencia para criar css em componentes
 
 import styled from "styled-components/native";
+import theme from "./themes";
+
 export const ContainerLogin = styled.SafeAreaView`
-  flex: 1;
-  align-items: center;
-  justify-content: center;
-  background-color: #10101c;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    background-color: ${theme.colors.darkGray};
 `;
+
 export const Logo = styled.View`
   padding-bottom: 20px;
 `;
@@ -26,22 +29,22 @@ export const InputForm = styled.TextInput`
   padding: 10px;
 `;
 export const BtnSubmitForm = styled.Pressable`
-  background-color: #1f51fe;
-  width: 90%;
-  height: 45px;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
+    background-color: ${theme.colors.primary};
+    width: 90%;
+    height: 45px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
 `;
-
-export const BtnSubmitPressedForm = (pressed) => ({
-  backgroundColor: pressed ? "#531ffe" : "#1f51fe",
-});
 
 export const TxtSubmitForm = styled.Text`
   color: #f5f5f5;
   font-size: 18px;
 `;
+
+export const BtnSubmitPressedForm = (pressed) => ({
+  backgroundColor: pressed ? "#531ffe" : "#1f51fe",
+});
 export const LinkLogin = styled.Text`
   color: #1f51fe;
   margin-top: 10px;
