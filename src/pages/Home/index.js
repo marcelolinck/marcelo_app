@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 //Incluir os componentes utilizados para estruturar o conteudo
-import { View, Text, Alert, ScrollView } from "react-native";
+import { Alert, ScrollView } from "react-native";
 
 //Importar o arquivo com os componentes css
 import {
@@ -20,6 +20,9 @@ import {
   ValueHomeContent,
   VerticalBarContent,
 } from "../../styles/custom";
+
+//Importar o componente para formatar a moeda
+import CurrencyFormatter from "../../utils/CurrencyFormatter";
 
 //Importar o componente para apresentar o alerta com as mensagens de erro retornadas da API.
 import ErrorAlert from "../../components/ErrorAlert";
@@ -105,13 +108,17 @@ export default function Home() {
           <RowDataHome>
             <SpaceBetweenHome>
               <TextHome>Saldo das contas</TextHome>
-              <ValueHome>R$ {totalBalanceValue ?? 0}</ValueHome>
+              <ValueHome>
+                <CurrencyFormatter value={totalBalanceValue ?? 0} />
+              </ValueHome>
             </SpaceBetweenHome>
           </RowDataHome>
           <RowDataHome>
             <SpaceBetweenHome>
               <TextHome>Gastos de hoje</TextHome>
-              <ValueHome>R$ {totalBillValue ?? 0}</ValueHome>
+              <ValueHome>
+                <CurrencyFormatter value={totalBillValue ?? 0} />
+              </ValueHome>
             </SpaceBetweenHome>
           </RowDataHome>
           <RowDataHome>
@@ -124,17 +131,25 @@ export default function Home() {
 
             <SpaceBetweenHome>
               <TextHome>Receitas</TextHome>
-              <ValueHome>R$ {reportMonth.month_revenue ?? 0}</ValueHome>
+              <ValueHome>
+                <CurrencyFormatter value={reportMonth.month_revenue ?? 0} />
+              </ValueHome>
             </SpaceBetweenHome>
 
             <SpaceBetweenHome>
               <TextHome>Despesas</TextHome>
-              <ValueHome>R$ {reportMonth.month_expense ?? 0}</ValueHome>
+              <ValueHome>
+                <CurrencyFormatter value={reportMonth.month_expense ?? 0} />
+              </ValueHome>
             </SpaceBetweenHome>
 
             <SpaceBetweenHome>
               <TextHome>Despesas no crédito</TextHome>
-              <ValueHome>R$ {reportMonth.month_expense_credit ?? 0}</ValueHome>
+              <ValueHome>
+                <CurrencyFormatter
+                  value={reportMonth.month_expense_credit ?? 0}
+                />
+              </ValueHome>
             </SpaceBetweenHome>
           </RowDataHome>
           /* Apresentar as contas a pagar com vencimento para hoje */
@@ -154,7 +169,7 @@ export default function Home() {
                   <ValueHomeContent
                     color={billDueToday.bill_situation.color.hexadecimal}
                   >
-                    R$ {billDueToday.bill_value}
+                    <CurrencyFormatter value={billDueToday.bill_value ?? 0} />
                   </ValueHomeContent>
                 </SpaceBetweenHome>
               ))
@@ -181,7 +196,7 @@ export default function Home() {
                   <ValueHomeContent
                     color={overdueBill.bill_situation.color.hexadecimal}
                   >
-                    R$ {overdueBill.bill_value}
+                    <CurrencyFormatter value={overdueBill.bill_value ?? 0} />
                   </ValueHomeContent>
                 </SpaceBetweenHome>
               ))
@@ -191,7 +206,6 @@ export default function Home() {
               </SpaceBetweenHome>
             )}
           </RowDataHome>
-          
           {/* Apresentar o loading */}
           {loading && <Loading />}
         </List>
