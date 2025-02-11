@@ -7,7 +7,19 @@ import { useCallback, useState } from "react";
 import { useFocusEffect } from "@react-navigation/native";
 
 //Incluir os componentes utilizados para estruturar o conteudo
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ScrollView } from "react-native";
+
+//Importar o arquivo com os componentes css
+import {
+  Container,
+  List,
+  RowDataHome,
+  SpaceBetweenHome,
+  TextHome,
+  ValueHome,
+  ValueHomeContent,
+  VerticalBarContent,
+} from "../../styles/custom";
 
 //Importar o componente para apresentar o alerta com as mensagens de erro retornadas da API.
 import ErrorAlert from "../../components/ErrorAlert";
@@ -85,60 +97,105 @@ export default function Home() {
   );
 
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Usar o componente para apresentar as mensagens de erro retornadas na API. */}
-      <ErrorAlert errors={errors} />
-      <Text>Relatório</Text>
-      <Text></Text>
-      <Text>
-        Saldo das contas: R$ {totalBalanceValue ? totalBalanceValue : 0}
-      </Text>
-      <Text>Gastos de hoje: R$ {totalBillValue ? totalBillValue : 0}</Text>
-      <Text>
-        Visão geral do mês: R${" "}
-        {reportMonth.year_month ? reportMonth.year_month : 0}
-      </Text>
-      <Text>
-        Receitas: R$ {reportMonth.month_revenue ? reportMonth.month_revenue : 0}
-      </Text>
-      <Text>
-        Despesas: R$ {reportMonth.month_expense ? reportMonth.month_expense : 0}
-      </Text>
-      <Text>
-        Despesas no crédito: R${" "}
-        {reportMonth.month_expense_credit
-          ? reportMonth.month_expense_credit
-          : 0}
-      </Text>
-      <Text></Text>
-      <Text>Vencimentos hoje:</Text>
-      {/* Ler a lista de contas a pagar com vencimento para hoje e apresentar na tela */}
-        {billsDueToday.length > 0 && (
-          <>
-            {billsDueToday.map((billDueToday) => {
-          //Retornar o componente com o nome e valor da conta
-          return (
-            <View key={billDueToday.id}>
-              <Text>{`${billDueToday.name} R$ ${billDueToday.bill_value ?? 0}`}</Text>
-            </View>
-          );
-            })}
-            <Text></Text>
-            <Text></Text>
-          </>
-        )}
-        {/* Ler a lista de contas vencidas e apresentar na tela */}
-      <Text>Contas vencidas:</Text>
-      {overdueBills.map((overdueBill) => {
-        //Retornar o componente com o nome e valor da conta
-        return (
-          <View key={overdueBill.id}>
-            <Text>{`${overdueBill.name} R$ ${overdueBill.bill_value}`}</Text>
-          </View>
-        );
-      })}
-      {/* Apresentar o loading */}
-      {loading && <Loading />}
-    </View>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <Container>
+        {/* Usar o componente para apresentar as mensagens de erro retornadas na API. */}
+        <ErrorAlert errors={errors} />
+        <List>
+          <RowDataHome>
+            <SpaceBetweenHome>
+              <TextHome>Saldo das contas</TextHome>
+              <ValueHome>R$ {totalBalanceValue ?? 0}</ValueHome>
+            </SpaceBetweenHome>
+          </RowDataHome>
+          <RowDataHome>
+            <SpaceBetweenHome>
+              <TextHome>Gastos de hoje</TextHome>
+              <ValueHome>R$ {totalBillValue ?? 0}</ValueHome>
+            </SpaceBetweenHome>
+          </RowDataHome>
+          <RowDataHome>
+            <SpaceBetweenHome>
+              <TextHome>Visão geral do mês</TextHome>
+              <ValueHome>
+                {reportMonth.year_month ? reportMonth.year_month : 0}
+              </ValueHome>
+            </SpaceBetweenHome>
+
+            <SpaceBetweenHome>
+              <TextHome>Receitas</TextHome>
+              <ValueHome>R$ {reportMonth.month_revenue ?? 0}</ValueHome>
+            </SpaceBetweenHome>
+
+            <SpaceBetweenHome>
+              <TextHome>Despesas</TextHome>
+              <ValueHome>R$ {reportMonth.month_expense ?? 0}</ValueHome>
+            </SpaceBetweenHome>
+
+            <SpaceBetweenHome>
+              <TextHome>Despesas no crédito</TextHome>
+              <ValueHome>R$ {reportMonth.month_expense_credit ?? 0}</ValueHome>
+            </SpaceBetweenHome>
+          </RowDataHome>
+          /* Apresentar as contas a pagar com vencimento para hoje */
+          <RowDataHome>
+            <SpaceBetweenHome>
+              <TextHome>Vencimentos hoje:</TextHome>
+            </SpaceBetweenHome>
+            {/* Ler a lista de contas a pagar com vencimento para hoje e apresentar na tela */}
+            {billsDueToday.length > 0 ? (
+              billsDueToday.map((billDueToday) => (
+                //Retornar o componente com o nome e valor da conta
+                <SpaceBetweenHome key={billDueToday.id}>
+                  <VerticalBarContent
+                    color={billDueToday.bill_situation.color.hexadecimal}
+                  />
+                  <TextHome>{billDueToday.name}</TextHome>
+                  <ValueHomeContent
+                    color={billDueToday.bill_situation.color.hexadecimal}
+                  >
+                    R$ {billDueToday.bill_value}
+                  </ValueHomeContent>
+                </SpaceBetweenHome>
+              ))
+            ) : (
+              <SpaceBetweenHome>
+                <TextHome>Nenhuma conta vencendo hoje</TextHome>
+              </SpaceBetweenHome>
+            )}
+          </RowDataHome>
+          /* Apresentar as contas já vencidas */
+          <RowDataHome>
+            <SpaceBetweenHome>
+              <TextHome>Vencidas</TextHome>
+            </SpaceBetweenHome>
+            {/* Ler a lista de contas vencidas e apresentar na tela */}
+            {overdueBills.length > 0 ? (
+              overdueBills.map((overdueBill) => (
+                //Retornar o componente com o nome e valor da conta
+                <SpaceBetweenHome key={overdueBill.id}>
+                  <VerticalBarContent
+                    color={overdueBill.bill_situation.color.hexadecimal}
+                  />
+                  <TextHome>{overdueBill.name}</TextHome>
+                  <ValueHomeContent
+                    color={overdueBill.bill_situation.color.hexadecimal}
+                  >
+                    R$ {overdueBill.bill_value}
+                  </ValueHomeContent>
+                </SpaceBetweenHome>
+              ))
+            ) : (
+              <SpaceBetweenHome>
+                <TextHome>Nenhuma conta vencendo hoje</TextHome>
+              </SpaceBetweenHome>
+            )}
+          </RowDataHome>
+          
+          {/* Apresentar o loading */}
+          {loading && <Loading />}
+        </List>
+      </Container>
+    </ScrollView>
   );
 }

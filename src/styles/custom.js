@@ -1,7 +1,7 @@
 //Importar a depenencia para criar css em componentes
 
 import styled from "styled-components/native";
-import theme from "./themes";
+import theme from "./theme";
 
 export const ContainerLogin = styled.SafeAreaView`
     flex: 1;
@@ -43,21 +43,123 @@ export const TxtSubmitForm = styled.Text`
 `;
 
 export const BtnSubmitPressedForm = (pressed) => ({
-  backgroundColor: pressed ? "#531ffe" : "#1f51fe",
+  backgroundColor: pressed ? theme.colors.primaryDark : theme.colors.primary,
 });
 export const LinkLogin = styled.Text`
-  color: #1f51fe;
+  color: ${theme.colors.primary};
   margin-top: 10px;
   font-size: 18px;
 `;
 
 export const LoadingArea = styled.View`
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  justify-content: center;
-  align-items: center;
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background-color: ${theme.colors.blackTransparent};
+    align-items: center;
+    justify-content: center;
 `;
+
+// Inicio personalização dashboard
+export const Container = styled.SafeAreaView`
+    background-color: ${theme.colors.lightGray};
+    flex: 1;
+    padding: 8px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-self: stretch;
+`;
+
+export const List = styled.View`
+    width: 100%;
+`;
+
+export const RowDataHome = styled.TouchableOpacity`
+    background-color: ${theme.colors.white};
+    padding: 15px 10px;
+    margin: 5px 5px;
+    border-radius: 6px;
+    align-items: center;
+    border-width: 1px; 
+    border-color: ${theme.colors.lightGray}; 
+    border-style: solid; 
+`;
+
+export const SpaceBetweenHome = styled.View`
+    margin-bottom: 10px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1; 
+`;
+
+export const TextHome = styled.Text`
+    color: ${theme.colors.blueGray};
+    flex: 1; 
+    font-size: 18px;
+`;
+
+export const ValueHome = styled.Text`
+    color: ${theme.colors.blueGray};
+    font-size: 18px;
+`;
+
+export const ContentSpaceBetweenHome = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1; 
+`;
+
+export const ValueHomeDanger = styled.Text`
+    color: ${theme.colors.red};
+    font-size: 18px;
+`;
+
+export const VerticalBarDanger = styled.View`
+    width: 3px;
+    height: 100%;
+    background-color: ${theme.colors.red};
+    margin-right: 10px; 
+`;
+
+export const ValueHomeContent = styled.Text`
+    color: ${props => props.color || theme.colors.green};
+    font-size: 18px;
+    flex-shrink: 0; 
+`;
+
+export const VerticalBarContent = styled.View`
+    width: 3px;
+    height: 100%;
+    background-color: ${props => props.color || theme.colors.green};
+    margin-right: 10px; 
+`;
+
+export const ValueHomeSuccess = styled.Text`
+    color: ${props => props.color || theme.colors.green};
+    font-size: 18px;
+    flex-shrink: 0; 
+`;
+
+export const VerticalBarSuccess = styled.View`
+    width: 3px;
+    height: 100%;
+    background-color: ${props => props.color || theme.colors.green};
+    margin-right: 10px; 
+`;
+
+export const ValueHomeWarning = styled.Text`
+    color: ${theme.colors.orange};
+    font-size: 18px;
+`;
+
+export const VerticalBarWarning = styled.View`
+    width: 3px;
+    height: 100%;
+    background-color: ${theme.colors.orange};
+    margin-right: 10px; 
+`;
+
