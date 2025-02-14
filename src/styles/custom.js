@@ -96,7 +96,17 @@ export const SpaceBetweenHome = styled.View`
 `;
 
 export const TextHome = styled.Text`
-    color: ${theme.colors.blueGray};
+    color: ${props => props.color || theme.colors.blueGray};
+    flex: 1; 
+    font-size: 18px;
+`;
+export const TextHomeSuccess = styled.Text`
+    color: ${props => props.color || theme.colors.green};
+    flex: 1; 
+    font-size: 18px;
+`;
+export const TextHomeDanger = styled.Text`
+    color: ${props => props.color || theme.colors.red};
     flex: 1; 
     font-size: 18px;
 `;

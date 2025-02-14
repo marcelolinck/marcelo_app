@@ -54,7 +54,7 @@ export default function DrawerNavigator() {
     //Nesse caso, o DrawerNavigator vai receber o DrawerSignOut para que o usuário possa sair do app
     <Drawer.Navigator drawerContent={props => <DrawerSignOut {...props} />}>
       <Drawer.Screen
-        name="Home"
+        name="Dashboard"
         component={Home}
         options={{
           headerRight: () => <UserIcon />,
@@ -66,7 +66,7 @@ export default function DrawerNavigator() {
               style={{ marginRight: -5 }}
             />
           ),
-          drawerLabel: "Home",
+          drawerLabel: "Dashboard",
         }}
       />
       <Drawer.Screen
