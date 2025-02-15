@@ -17,14 +17,19 @@ import ErrorAlert from '../../components/ErrorAlert';
 // Importar o componente para formatar moeda.
 import CurrencyFormatter from '../../utils/CurrencyFormatter';
 
+// Importar a função para formatar moeda.
+import formatCurrency from '../../utils/formatCurrency';
+
+//Importar a funcao para formadar a data
+import getMonthName from '../../utils/getMonthName';
+
 // Importar o componente para apresentar carregando
 import Loading from '../../components/Loading';
 
 // Incluir AsyncStorage para armazenar dados
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Importar a função para formatar moeda.
-import formatCurrency from '../../utils/formatCurrency';
+
 
 // Arquivo com as configurações da API
 import api from '../../config/api';
@@ -66,6 +71,7 @@ export default function Home() {
                 setTotalBillValue(formatCurrency(response.data.totalBillValue ?? 0));
                 setBillsDueToday(response.data.billsDueToday);
                 setOverdueBills(response.data.overdueBills);
+              
 
 
             }).catch((err) => { // Acessar o catch quando a API retornar status erro
@@ -98,6 +104,7 @@ export default function Home() {
     useFocusEffect(
         useCallback(() => {
             getReport();
+
         }, [])
     );
 
@@ -140,7 +147,7 @@ export default function Home() {
                                 Visão geral do mês
                             </TextHome>
                             <ValueHome>
-                                {reportMonth.year_month ? reportMonth.year_month : ""}
+                                {reportMonth.year_month ? getMonthName(reportMonth.year_month) : ""}
                             </ValueHome>
                         </SpaceBetweenHome>
 
