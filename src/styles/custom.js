@@ -79,7 +79,7 @@ export const List = styled.View`
 export const RowDataHome = styled.TouchableOpacity`
     background-color: ${theme.colors.white};
     padding: 15px 10px;
-    margin: 5px 5px;
+    margin: 5px 0;
     border-radius: 6px;
     align-items: center;
     border-width: 1px; 
@@ -100,11 +100,13 @@ export const TextHome = styled.Text`
     flex: 1; 
     font-size: 18px;
 `;
+
 export const TextHomeSuccess = styled.Text`
     color: ${props => props.color || theme.colors.green};
     flex: 1; 
     font-size: 18px;
 `;
+
 export const TextHomeDanger = styled.Text`
     color: ${props => props.color || theme.colors.red};
     flex: 1; 
@@ -173,3 +175,40 @@ export const VerticalBarWarning = styled.View`
     margin-right: 10px; 
 `;
 
+// Inicio listar despesas
+export const TextSubTitleBilly = styled.Text`
+    color: ${theme.colors.blueGray};
+    font-size: 14px;
+`;
+
+export const SpaceBetweenBilly = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;   
+    flex: 1; 
+`;
+
+// Inicio da paginação
+export const Pagination = styled.View`
+    padding: 10px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+`;
+
+export const PaginationText = styled.Text`   
+    background-color: ${props => props.color || theme.colors.white}; 
+    font-size: 16px;
+    padding: 12px;
+    margin: 3px;
+    border-radius: 6px;
+`;
+
+export const PaginationTextActive = styled.Text`
+    color: ${props => props.color || theme.colors.blueGray};
+    background-color: ${props => props.color || theme.colors.white};
+    font-size: 16px;
+    padding: 12px;
+    margin: 3px;
+    border-radius: 6px;
+`;

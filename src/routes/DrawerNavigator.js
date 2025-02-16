@@ -70,7 +70,7 @@ export default function DrawerNavigator() {
         }}
       />
       <Drawer.Screen
-        name="Billys"
+        name="Contas"
         component={Billys}
         options={{
           headerRight: () => <UserIcon />,
@@ -86,7 +86,7 @@ export default function DrawerNavigator() {
         }}
       />
       <Drawer.Screen
-        name="Revenues"
+        name="Receitas"
         component={Revenues}
         options={{
           headerRight: () => <UserIcon />,
